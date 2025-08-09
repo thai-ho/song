@@ -1,0 +1,47 @@
+{
+  "name": "song",
+  "version": "1.0.0",
+  "description": "Sóng /sóːŋ/ - Vietnamese for waves. Extract colors from images and create flowing gradient backgrounds.",
+  "main": "dist/song.js",
+  "module": "dist/song.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "test": "echo \"Tests will be implemented later\" && exit 0"
+  },
+  "keywords": [
+    "gradient",
+    "color-extraction",
+    "image-processing",
+    "waves",
+    "song",
+    "vietnamese",
+    "music-player",
+    "background",
+    "dynamic",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/song.git"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@types/node": "^24.2.1",
+    "rollup": "^2.79.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sóng - Wave Examples</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont,
+          sans-serif;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        color: white;
+        padding: 40px 20px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .header h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+      }
+
+      .demo-section {
+        margin: 40px 0;
+        padding: 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .demo-section h2 {
+        margin-bottom: 20px;
+        color: #2c3e50;
+      }
+
+      .music-player {
+        background: #f8f9fa;
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        transition: all 2s ease;
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .album-cover {
+        width: 150px;
+        height: 150px;
+        border-radius: 15px;
+        margin: 0 auto 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        object-fit: cover;
+      }
+
+      .track-info h3 {
+        font-size: 1.5em;
+        margin-bottom: 5px;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .track-info p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.1em;
+      }
+
+      .controls {
+        margin-top: 20px;
+      }
+
+      .btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 14px;
+        margin: 0 10px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .track-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .track-card {
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .track-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .track-card.active {
+        border-color: #667eea;
+        background: #e8f0fe;
+      }
+
+      .track-card img {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        object-fit: cover;
+      }
+
+      .color-preview {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .color-box {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .auto-demo {
+        min-height: 200px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2em;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      @media (max-width: 600px) {
+        .header h1 {
+          font-size: 2em;
+        }
+
+        .album-cover {
+          width: 120px;
+          height: 120px;
+        }
+
+        .track-selector {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🌊 Sóng</h1>
+        <p>Vietnamese for "waves" - Create flowing gradients from images</p>
+      </div>
+
+      <!-- Music Player Demo -->
+      <div class="demo-section">
+        <h2>🎵 Music Player Demo</h2>
+        <div id="musicPlayer" class="music-player">
+          <img
+            id="albumCover"
+            src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop"
+            alt="Album Cover"
+            class="album-cover"
+            crossorigin="anonymous"
+          />
+
+          <div class="track-info">
+            <h3 id="trackTitle">Tsunami</h3>
+            <p id="trackArtist">R3HAB</p>
+          </div>
+
+          <div class="color-preview" id="colorPreview">
+            <!-- Colors will be populated by JavaScript -->
+          </div>
+
+          <div class="controls">
+            <button class="btn">⏮️ Previous</button>
+            <button class="btn">⏯️ Play</button>
+            <button class="btn">⏭️ Next</button>
+          </div>
+        </div>
+
+        <div class="track-selector">
+          <div class="track-card active" data-track="0">
+            <img
+              src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=100&h=100&fit=crop"
+              alt="Track 1"
+              crossorigin="anonymous"
+            />
+            <div><strong>Tsunami</strong></div>
+            <div>R3HAB</div>
+          </div>
+          <div class="track-card" data-track="1">
+            <img
+              src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=100&h=100&fit=crop"
+              alt="Track 2"
+              crossorigin="anonymous"
+            />
+            <div><strong>Neon Dreams</strong></div>
+            <div>Synthwave Artist</div>
+          </div>
+          <div class="track-card" data-track="2">
+            <img
+              src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=100&h=100&fit=crop"
+              alt="Track 3"
+              crossorigin="anonymous"
+            />
+            <div><strong>Ocean Waves</strong></div>
+            <div>Nature Sounds</div>
+          </div>
+          <div class="track-card" data-track="3">
+            <img
+              src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop"
+              alt="Track 4"
+              crossorigin="anonymous"
+            />
+            <div><strong>Vinyl Nights</strong></div>
+            <div>Jazz Collective</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Auto-Initialize Demo -->
+      <div class="demo-section">
+        <h2>🎭 Auto-Initialize Demo</h2>
+        <p>
+          These elements automatically get wave backgrounds using data
+          attributes:
+        </p>
+
+        <div
+          class="auto-demo"
+          data-song-waves="https://images.unsplash.com/photo-1571173069043-ce4c1e8ea7ae?w=400&h=400&fit=crop"
+          data-wave-intensity="gentle"
+          data-wave-direction="to right"
+        >
+          Auto-generated waves from data attributes
+        </div>
+      </div>
+    </div>
+
+    <!-- Include the Sóng library -->
+    <script type="module">
+      // Simulate the Sóng library for demo purposes
+      // In real usage, you would import from your built file
+
+      // Sample tracks
+      const tracks = [
+        {
+          title: "Tsunami",
+          artist: "R3HAB",
+          cover:
+            "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop",
+        },
+        {
+          title: "Neon Dreams",
+          artist: "Synthwave Artist",
+          cover:
+            "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=300&h=300&fit=crop",
+        },
+        {
+          title: "Ocean Waves",
+          artist: "Nature Sounds",
+          cover:
+            "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=300&h=300&fit=crop",
+        },
+        {
+          title: "Vinyl Nights",
+          artist: "Jazz Collective",
+          cover:
+            "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&h=300&fit=crop",
+        },
+      ];
+
+      let currentTrack = 0;
+
+      // Simplified color extraction for demo
+      async function extractColors(imageSrc) {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = 100;
+            canvas.height = 100;
+
+            ctx.drawImage(img, 0, 0, 100, 100);
+            const imageData = ctx.getImageData(0, 0, 100, 100);
+            const pixels = imageData.data;
+
+            // Simple color extraction
+            const colors = [];
+            const colorMap = {};
+
+            for (let i = 0; i < pixels.length; i += 16) {
+              const r = Math.floor(pixels[i] / 32) * 32;
+              const g = Math.floor(pixels[i + 1] / 32) * 32;
+              const b = Math.floor(pixels[i + 2] / 32) * 32;
+              const alpha = pixels[i + 3];
+
+              if (alpha > 100) {
+                const key = `${r},${g},${b}`;
+                colorMap[key] = (colorMap[key] || 0) + 1;
+              }
+            }
+
+            const sortedColors = Object.entries(colorMap)
+              .sort(([, a], [, b]) => b - a)
+              .slice(0, 3)
+              .map(([color]) => {
+                const [r, g, b] = color.split(",").map(Number);
+                return `#${r.toString(16).padStart(2, "0")}${g
+                  .toString(16)
+                  .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+              });
+
+            resolve(
+              sortedColors.length >= 2
+                ? sortedColors.slice(0, 2)
+                : ["#6B46C1", "#EC4899"]
+            );
+          };
+
+          img.onerror = () => resolve(["#6B46C1", "#EC4899"]);
+          img.src = imageSrc;
+        });
+      }
+
+      // Update player with track
+      async function updatePlayer(trackIndex) {
+        const track = tracks[trackIndex];
+        currentTrack = trackIndex;
+
+        // Update UI
+        document.getElementById("trackTitle").textContent = track.title;
+        document.getElementById("trackArtist").textContent = track.artist;
+        document.getElementById("albumCover").src = track.cover;
+
+        // Update active track card
+        document.querySelectorAll(".track-card").forEach((card, index) => {
+          card.classList.toggle("active", index === trackIndex);
+        });
+
+        try {
+          // Extract colors and apply gradient
+          const colors = await extractColors(track.cover);
+          const player = document.getElementById("musicPlayer");
+
+          player.style.background = `linear-gradient(to bottom, ${colors[0]}, ${colors[1]})`;
+
+          // Update color preview
+          const colorPreview = document.getElementById("colorPreview");
+          colorPreview.innerHTML = colors
+            .map(
+              (color) =>
+                `<div class="color-box" style="background-color: ${color}" title="${color}"></div>`
+            )
+            .join("");
+        } catch (error) {
+          console.error("Failed to extract colors:", error);
+        }
+      }
+
+      // Initialize
+      updatePlayer(0);
+
+      // Track selector events
+      document.querySelectorAll(".track-card").forEach((card, index) => {
+        card.addEventListener("click", () => updatePlayer(index));
+      });
+
+      // Auto-initialize demo elements
+      document.addEventListener("DOMContentLoaded", async () => {
+        const autoElements = document.querySelectorAll("[data-song-waves]");
+
+        for (const element of autoElements) {
+          const imageSrc = element.dataset.songWaves;
+          const direction = element.dataset.waveDirection || "to bottom right";
+
+          try {
+            const colors = await extractColors(imageSrc);
+            element.style.background = `linear-gradient(${direction}, ${colors[0]}, ${colors[1]})`;
+          } catch (error) {
+            console.error("Auto-init failed:", error);
+            element.style.background =
+              "linear-gradient(to bottom right, #6B46C1, #EC4899)";
+          }
+        }
+      });
+
+      // Add some interactivity
+      document.querySelector(".btn").addEventListener("click", () => {
+        const nextTrack = (currentTrack + 1) % tracks.length;
+        updatePlayer(nextTrack);
+      });
+    </script>
+  </body>
+</html>
