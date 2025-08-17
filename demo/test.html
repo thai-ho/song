@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Song API Test</title>
+</head>
+<body>
+    <h1>Song API Test</h1>
+    <script src="song.js"></script>
+    <script>
+        console.log('Available Song object:', Song);
+        console.log('Song keys:', Object.keys(Song));
+        console.log('Song.create:', Song.create);
+        console.log('Song.createSong:', Song.createSong);
+        console.log('Song.default:', Song.default);
+        console.log('Song.Song:', Song.Song);
+        
+        // Test the create function
+        if (Song.create) {
+            console.log('✅ Song.create is available - trying to create instance...');
+            try {
+                // Create a test element
+                const testImg = document.createElement('img');
+                testImg.id = 'test-image';
+                testImg.src = 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop';
+                document.body.appendChild(testImg);
+                
+                // Initialize Sóng
+                const testInstance = Song.create({
+                    targetElementId: 'test-image',
+                    colorCount: 3,
+                    waveIntensity: 0.5
+                });
+                
+                console.log('✅ Successfully created Song instance:', testInstance);
+                document.body.innerHTML += '<p style="color: green;">✅ Song.create() works!</p>';
+            } catch (error) {
+                console.error('❌ Error creating Song instance:', error);
+                document.body.innerHTML += '<p style="color: red;">❌ Error: ' + error.message + '</p>';
+            }
+        } else {
+            console.log('❌ Song.create not found');
+            document.body.innerHTML += '<p style="color: red;">❌ Song.create not found</p>';
+        }
+    </script>
+</body>
+</html>

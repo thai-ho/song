@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Sóng Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .album-container {
+            margin: 2rem 0;
+        }
+
+        .album-art {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            margin: 0 auto;
+            display: block;
+        }
+
+        .controls {
+            margin: 2rem 0;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            margin: 0.5rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .code-example {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            text-align: left;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>🌊 Sóng - Simple Example</h1>
+        <p>Watch the background change as you interact with the album art below!</p>
+
+        <div class="album-container">
+            <img id="my-album" class="album-art" 
+                 src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop" 
+                 alt="Album Art">
+        </div>
+
+        <div class="controls">
+            <button onclick="changeImage()">Change Image</button>
+            <button onclick="updateBackdrop()">Update Backdrop</button>
+        </div>
+
+        <div class="code-example">
+            <h3>How to use Sóng:</h3>
+            <pre><code>// 1. Include the script
+&lt;script src="song.js">&lt;/script>
+
+// 2. Initialize Sóng
+const backdrop = Song.create({
+    targetElementId: 'my-album'
+});
+
+// 3. That's it! The backdrop updates automatically</code></pre>
+        </div>
+
+        <div class="code-example">
+            <h3>Advanced Options:</h3>
+            <pre><code>const backdrop = Song.create({
+    targetElementId: 'my-album',
+    colorCount: 4,           // Number of colors to extract
+    waveIntensity: 0.8,      // Wave animation intensity
+    animationDuration: 20,   // Animation speed (seconds)
+    blurIntensity: 8,        // Backdrop blur amount
+    backdropOpacity: 0.7,    // Backdrop opacity
+    autoUpdate: true         // Auto-update on changes
+});</code></pre>
+        </div>
+    </div>
+
+    <!-- Load Sóng -->
+    <script src="song.js"></script>
+    
+    <script>
+        // Sample images to cycle through
+        const sampleImages = [
+            'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=400&fit=crop'
+        ];
+
+        let currentImageIndex = 0;
+        let songInstance;
+
+        // Initialize Sóng
+        function initSong() {
+            try {
+                songInstance = Song.create({
+                    targetElementId: 'my-album',
+                    colorCount: 4,
+                    waveIntensity: 0.8,
+                    animationDuration: 25,
+                    blurIntensity: 6,
+                    backdropOpacity: 0.8
+                });
+                console.log('Sóng initialized successfully!');
+            } catch (error) {
+                console.error('Failed to initialize Sóng:', error);
+            }
+        }
+
+        // Change image
+        function changeImage() {
+            currentImageIndex = (currentImageIndex + 1) % sampleImages.length;
+            const img = document.getElementById('my-album');
+            img.src = sampleImages[currentImageIndex];
+        }
+
+        // Manually update backdrop
+        function updateBackdrop() {
+            if (songInstance) {
+                songInstance.update();
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            setTimeout(initSong, 1000);
+        });
+    </script>
+</body>
+</html>

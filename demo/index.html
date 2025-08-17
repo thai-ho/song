@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌊 Sóng - Dynamic Wave Backdrops</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .demo-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .album-art {
+            width: 200px;
+            height: 200px;
+            border-radius: 15px;
+            margin: 0 auto 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .album-art:hover {
+            transform: scale(1.05);
+        }
+
+        .song-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .song-info p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .header p {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 6rem;
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        .color-info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            justify-content: center;
+        }
+
+        .color-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .demo-section {
+                margin: 1rem 0;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌊 Sóng Demo</h1>
+        <p>Dynamic wave backdrops from your images</p>
+    </div>
+
+    <div class="container">
+        <div class="demo-grid">
+            <!-- Demo 1: Music Player -->
+            <div class="demo-section">
+                <img id="album1" class="album-art" 
+                     src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop" 
+                     alt="Album Art">
+                <div class="song-info">
+                    <h2>Neon Dreams</h2>
+                    <p>Synthwave Collective</p>
+                </div>
+                <div class="controls">
+                    <button class="btn" onclick="changeSong('album1', 'neon')">🎵 Play</button>
+                    <button class="btn" onclick="updateWaves('album1')">🌊 Update</button>
+                </div>
+                <div class="color-info">
+                    <p>Extracted Colors:</p>
+                    <div id="colors1" class="color-palette"></div>
+                </div>
+            </div>
+
+            <!-- Demo 2: Nature Theme -->
+            <div class="demo-section">
+                <img id="album2" class="album-art" 
+                     src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=300&fit=crop" 
+                     alt="Nature">
+                <div class="song-info">
+                    <h2>Forest Echoes</h2>
+                    <p>Nature Sounds</p>
+                </div>
+                <div class="controls">
+                    <button class="btn" onclick="changeSong('album2', 'nature')">🌲 Play</button>
+                    <button class="btn" onclick="updateWaves('album2')">🌊 Update</button>
+                </div>
+                <div class="color-info">
+                    <p>Extracted Colors:</p>
+                    <div id="colors2" class="color-palette"></div>
+                </div>
+            </div>
+
+            <!-- Demo 3: Urban Night -->
+            <div class="demo-section">
+                <img id="album3" class="album-art" 
+                     src="https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=300&h=300&fit=crop" 
+                     alt="City">
+                <div class="song-info">
+                    <h2>City Lights</h2>
+                    <p>Urban Pulse</p>
+                </div>
+                <div class="controls">
+                    <button class="btn" onclick="changeSong('album3', 'city')">🏙️ Play</button>
+                    <button class="btn" onclick="updateWaves('album3')">🌊 Update</button>
+                </div>
+                <div class="color-info">
+                    <p>Extracted Colors:</p>
+                    <div id="colors3" class="color-palette"></div>
+                </div>
+            </div>
+
+            <!-- Demo 4: Abstract Art -->
+            <div class="demo-section">
+                <img id="album4" class="album-art" 
+                     src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=300&h=300&fit=crop" 
+                     alt="Abstract">
+                <div class="song-info">
+                    <h2>Digital Flow</h2>
+                    <p>Electronic Vibes</p>
+                </div>
+                <div class="controls">
+                    <button class="btn" onclick="changeSong('album4', 'abstract')">🎨 Play</button>
+                    <button class="btn" onclick="updateWaves('album4')">🌊 Update</button>
+                </div>
+                <div class="color-info">
+                    <p>Extracted Colors:</p>
+                    <div id="colors4" class="color-palette"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🌊 Sóng - Creating beautiful wave backdrops from your content</p>
+        <p>Try changing images or clicking update to see the magic happen!</p>
+    </div>
+
+    <!-- Load Sóng library -->
+    <script src="song.js"></script>
+    
+    <script>
+        // Sóng instances for each demo
+        const songInstances = {};
+
+        // Sample image sets for different themes
+        const imageSets = {
+            neon: [
+                'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=300&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop'
+            ],
+            nature: [
+                'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=300&fit=crop'
+            ],
+            city: [
+                'https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=300&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=300&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?w=300&h=300&fit=crop'
+            ],
+            abstract: [
+                'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=300&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=300&h=300&fit=crop'
+            ]
+        };
+
+        // Initialize Sóng for each album art
+        function initializeSong() {
+            ['album1', 'album2', 'album3', 'album4'].forEach(id => {
+                try {
+                    songInstances[id] = Song.create({
+                        targetElementId: id,
+                        colorCount: 4,
+                        waveIntensity: 0.8,
+                        animationDuration: 25,
+                        blurIntensity: 6,
+                        backdropOpacity: 0.7
+                    });
+
+                    console.log(`✅ Successfully initialized Song for ${id}`);
+
+                    // Display extracted colors
+                    setTimeout(() => displayColors(id), 1000);
+                } catch (error) {
+                    console.error(`Failed to initialize Song for ${id}:`, error);
+                }
+            });
+        }
+
+        // Display extracted colors
+        async function displayColors(albumId) {
+            const instance = songInstances[albumId];
+            if (!instance) return;
+
+            try {
+                const colors = instance.getCurrentColors();
+                const colorContainer = document.getElementById(`colors${albumId.slice(-1)}`);
+                
+                if (colorContainer && colors.length > 0) {
+                    colorContainer.innerHTML = colors.map(color => 
+                        `<div class="color-dot" style="background-color: ${color.hex}" title="${color.hex}"></div>`
+                    ).join('');
+                }
+            } catch (error) {
+                console.error('Error displaying colors:', error);
+            }
+        }
+
+        // Change song/image
+        function changeSong(albumId, theme) {
+            const images = imageSets[theme];
+            const randomImage = images[Math.floor(Math.random() * images.length)];
+            
+            const imgElement = document.getElementById(albumId);
+            imgElement.src = randomImage;
+            
+            // Update Sóng after image loads
+            imgElement.onload = () => {
+                setTimeout(() => {
+                    updateWaves(albumId);
+                }, 500);
+            };
+        }
+
+        // Update waves for specific album
+        async function updateWaves(albumId) {
+            const instance = songInstances[albumId];
+            if (instance) {
+                try {
+                    await instance.update();
+                    setTimeout(() => displayColors(albumId), 500);
+                } catch (error) {
+                    console.error('Error updating waves:', error);
+                }
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            setTimeout(initializeSong, 1000);
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            Object.values(songInstances).forEach(instance => {
+                if (instance && instance.regenerateWaves) {
+                    instance.regenerateWaves();
+                }
+            });
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            Object.values(songInstances).forEach(instance => {
+                if (instance && instance.destroy) {
+                    instance.destroy();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

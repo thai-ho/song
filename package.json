@@ -1,47 +1,38 @@
 {
-  "name": "song",
+  "name": "song-waves",
   "version": "1.0.0",
-  "description": "Sóng /sóːŋ/ - Vietnamese for waves. Extract colors from images and create flowing gradient backgrounds.",
+  "description": "🌊 Extract colors from UI elements and create beautiful wave-pattern gradient backdrops",
   "main": "dist/song.js",
   "module": "dist/song.esm.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src",
-    "README.md"
-  ],
+  "types": "dist/song.d.ts",
+  "type": "module",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c --watch",
-    "clean": "rm -rf dist",
-    "prepublishOnly": "npm run clean && npm run build",
-    "test": "echo \"Tests will be implemented later\" && exit 0"
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "demo": "http-server demo -p 3000"
   },
   "keywords": [
     "gradient",
-    "color-extraction",
-    "image-processing",
     "waves",
-    "song",
-    "vietnamese",
+    "backdrop",
+    "color-extraction",
+    "dynamic-background",
     "music-player",
-    "background",
-    "dynamic",
-    "javascript",
-    "typescript"
+    "ui"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "Thai Ho",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/song.git"
-  },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-typescript": "^12.1.4",
-    "@types/node": "^24.2.1",
-    "rollup": "^2.79.2",
-    "rollup-plugin-terser": "^7.0.2",
-    "typescript": "^5.9.2"
-  }
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/jest": "^29.5.12",
+    "http-server": "^14.1.1",
+    "jest": "^29.7.0",
+    "rollup": "^4.13.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.4.2"
+  },
+  "files": [
+    "dist/"
+  ]
 }
